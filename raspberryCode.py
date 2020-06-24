@@ -15,10 +15,10 @@ i = 0
 #                                            sesores 0-1     sesnor 2    Sesnores 3-4
 
 def audioSelector(sensor):
-    Organico = "/home/nicolas/Desktop/Raspi/Audios/Organico.ogg"
-    NoApro = "/home/nicolas/Desktop/Raspi/Audios/NoApro.ogg"
-    Apro = "/home/nicolas/Desktop/Raspi/Audios/Apro.ogg"
-    Reciclar = "/home/nicolas/Desktop/Raspi/Audios/Reciclar.ogg"
+    Organico = "/home/nicolas/Desktop/Repo/ProyectoCanecas/Audios/Organico.ogg"
+    NoApro = "/home/nicolas/Desktop/Repo/ProyectoCanecas/Audios/NoApro.ogg"
+    Apro = "/home/nicolas/Desktop/Repo/ProyectoCanecas/Audios/Apro.ogg"
+    Reciclar = "/home/nicolas/Desktop/Repo/ProyectoCanecas/Audios/Reciclar.ogg"
     if sensor == 0:
         print("Aprovechables")
         playsound(Apro)
