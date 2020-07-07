@@ -63,15 +63,19 @@ def readingSerial():
 			saveLog(dataSensors)
 			return dataSensors
 
+def writeSerial():
+    ser.write(b'n')
+
 while key:
-	dataSensors = readingSerial()
-	print("Los sensores: ", dataSensors)
-	sensorInfo = findSmallestMeasure(dataSensors)
-	print("Caneca: ",sensorInfo)
-	if float(sensorInfo[1]) < 0.1:
-		audioSelector(sensorInfo[0])
-		audioSelector(5)
-	i = i+1
+    dataSensors = readingSerial()
+    print("Los sensores: ", dataSensors)
+    sensorInfo = findSmallestMeasure(dataSensors)
+    print("Caneca: ",sensorInfo)
+    if float(sensorInfo[1]) < 0.1:
+        audioSelector(sensorInfo[0])
+        writeSerial()
+        audioSelector(5)
+	i = i+1 
  	if i >= 4:
 		key = False
  
