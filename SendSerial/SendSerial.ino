@@ -1,8 +1,11 @@
 
-float serialRandom;
-int echoArray[3] = {2,5,8};
-int trigArray[3] = {3,6,9};
-int ledArray[3] = {4,7,10};
+
+int echoArray[5] = {53,49,45,2,10};
+int trigArray[5] = {52,48,44,3,11};
+int ledArray[3] = {51,47,43};
+
+int maxDistance = 400;
+
 float dataSensor[5];
 float duration;
 float distance;
@@ -39,37 +42,22 @@ void receiveData(){
     }
   }
 
-void sendData(){  
-  serialRandom = random(10)/2; 
-  Serial.println("/////");
-  Serial.print(serialRandom);
-  Serial.print(",");
-  serialRandom = random(10)/2.55;
-  Serial.print(serialRandom);
-  Serial.print(",");
-  serialRandom = random(10)/2.55;
-  Serial.print(serialRandom);
-  Serial.print(",");
-  serialRandom = random(10)/2.55;
-  Serial.print(serialRandom);
-  Serial.print(",");
-  serialRandom = random(10)/2.55;
-  Serial.println(serialRandom);
-  }
-
 void ultrasonicData(){
+  delay(500);
   for(int i = 0; i< sizeof(trigArray)/2; i++){
-    digitalWrite(trigArray[0], LOW);
+    digitalWrite(trigArray[i], LOW);
     delayMicroseconds(2);
-    digitalWrite(trigArray[0], HIGH);
+    digitalWrite(trigArray[i], HIGH);
     delayMicroseconds(10);
-    digitalWrite(trigArray[0], LOW);
-    duration = pulseIn(echoArray[0], HIGH);
+    digitalWrite(trigArray[i], LOW);
+    duration = pulseIn(echoArray[i], HIGH);
     distance = duration*0.034/2;
-    dataSensor[i] = distance/100;
+    if(distance > maxDistance){
+      dataSensor[i] = 4;
+      }else{
+        dataSensor[i] = distance/100;
+        }
     }
-    dataSensor[3] = random(10)/2.55;
-    dataSensor[4] = random(10)/2.55;
     Serial.println("/////");
     for(int i=0; i< sizeof(dataSensor)/4;i++){
       Serial.print(dataSensor[i]);

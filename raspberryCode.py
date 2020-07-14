@@ -12,7 +12,7 @@ i = 0
 #para configurar despues ser.port = 'COM1
 #Hay 5 sensores, los contenedores de las esquinas tienen 2 y el del centro solo 1
 #El orden de las canecas aqui planteado es  Aprovechables-  Organico  -No aprovechables
-#                                            sesores 0-1     sesnor 2    Sesnores 3-4
+#                                            sensores 0-1     sensor 2    Sensores 3-4
 
 def audioSelector(sensor):
     Organico = "/home/nicolas/Desktop/Repo/ProyectoCanecas/Audios/Organico.ogg"
@@ -71,12 +71,11 @@ while key:
     print("Los sensores: ", dataSensors)
     sensorInfo = findSmallestMeasure(dataSensors)
     print("Caneca: ",sensorInfo)
-    if float(sensorInfo[1]) < -0.1:
+    if float(sensorInfo[1]) < 0.1:
         audioSelector(sensorInfo[0])
         writeSerial()
         audioSelector(5)
-    i = i+1
-    print(i)
+    #i = i+1
     if i >= 4:
         key = False
  
