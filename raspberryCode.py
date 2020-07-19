@@ -1,5 +1,6 @@
 import serial
 import random
+import os
 from datetime import datetime
 from playsound import playsound
 
@@ -21,22 +22,22 @@ def audioSelector(sensor):
     Reciclar = "/home/nicolas/Desktop/Repo/ProyectoCanecas/Audios/Reciclar.ogg"
     if sensor == 0:
         print("Aprovechables")
-        playsound(Apro)
+        os.system("omxplayer /home/nicolas/Desktop/Repo/ProyectoCanecas/Audios/Apro.ogg")
     elif sensor == 1:
         print("Aprovechables")
-        playsound(Apro)
+        os.system("omxplayer /home/nicolas/Desktop/Repo/ProyectoCanecas/Audios/Apro.ogg")
     elif sensor == 2:
         print("Organico")
-        playsound(Organico)
+        os.system("omxplayer /home/nicolas/Desktop/Repo/ProyectoCanecas/Audios/Organico.ogg")
     elif sensor == 3:
         print("No Aprovechables")
-        playsound(NoApro)
+        os.system("omxplayer /home/nicolas/Desktop/Repo/ProyectoCanecas/Audios/NoApro.ogg")
     elif sensor == 4:
         print("No Aprovechables")
-        playsound(NoApro)
+        os.system("omxplayer /home/nicolas/Desktop/Repo/ProyectoCanecas/Audios/NoApro.ogg")
     elif sensor == 5:
 		print("Reciclar Reciclar")
-		playsound(Reciclar)
+		os.system("omxplayer /home/nicolas/Desktop/Repo/ProyectoCanecas/Audios/Reciclar.ogg")
   
 def findSmallestMeasure(dataSensors):
     j = 0
