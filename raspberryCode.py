@@ -1,5 +1,6 @@
 import serial
 import random
+import os
 from datetime import datetime
 from playsound import playsound
 
@@ -12,7 +13,7 @@ i = 0
 #para configurar despues ser.port = 'COM1
 #Hay 5 sensores, los contenedores de las esquinas tienen 2 y el del centro solo 1
 #El orden de las canecas aqui planteado es  Aprovechables-  Organico  -No aprovechables
-#                                            sesores 0-1     sesnor 2    Sesnores 3-4
+#                                            sensores 0-1     sensor 2    Sensores 3-4
 
 def audioSelector(sensor):
     Organico = "/home/nicolas/Desktop/Repo/ProyectoCanecas/Audios/Organico.ogg"
@@ -21,22 +22,22 @@ def audioSelector(sensor):
     Reciclar = "/home/nicolas/Desktop/Repo/ProyectoCanecas/Audios/Reciclar.ogg"
     if sensor == 0:
         print("Aprovechables")
-        playsound(Apro)
+        os.system("omxplayer /home/nicolas/Desktop/Repo/ProyectoCanecas/Audios/Apro.ogg")
     elif sensor == 1:
         print("Aprovechables")
-        playsound(Apro)
+        os.system("omxplayer /home/nicolas/Desktop/Repo/ProyectoCanecas/Audios/Apro.ogg")
     elif sensor == 2:
         print("Organico")
-        playsound(Organico)
+        os.system("omxplayer /home/nicolas/Desktop/Repo/ProyectoCanecas/Audios/Organico.ogg")
     elif sensor == 3:
         print("No Aprovechables")
-        playsound(NoApro)
+        os.system("omxplayer /home/nicolas/Desktop/Repo/ProyectoCanecas/Audios/NoApro.ogg")
     elif sensor == 4:
         print("No Aprovechables")
-        playsound(NoApro)
+        os.system("omxplayer /home/nicolas/Desktop/Repo/ProyectoCanecas/Audios/NoApro.ogg")
     elif sensor == 5:
 		print("Reciclar Reciclar")
-		playsound(Reciclar)
+		os.system("omxplayer /home/nicolas/Desktop/Repo/ProyectoCanecas/Audios/Reciclar.ogg")
   
 def findSmallestMeasure(dataSensors):
     j = 0
@@ -63,17 +64,28 @@ def readingSerial():
 			saveLog(dataSensors)
 			return dataSensors
 
+def writeSerial(task):
+    
+    if task == 'data':
+        ser.write(b's')
+    if task == 'open':
+        ser.write(b'o')
+    if task == 'close':
+        ser.write(b'c')
+
 while key:
-	dataSensors = readingSerial()
-	print("Los sensores: ", dataSensors)
-	sensorInfo = findSmallestMeasure(dataSensors)
-	print("Caneca: ",sensorInfo)
-	if float(sensorInfo[1]) < 0.1:
-		audioSelector(sensorInfo[0])
-		audioSelector(5)
-	i = i+1
- 	if i >= 4:
-		key = False
+    writeSerial('data')
+    dataSensors = readingSerial()
+    print("Los sensores: ", dataSensors)
+    sensorInfo = findSmallestMeasure(dataSensors)
+    print("Caneca: ",sensorInfo)
+    #if float(sensorInfo[1]) < 0.1:
+        #audioSelector(sensorInfo[0])
+        #writeSerial()
+        #audioSelector(5)
+    #i = i+1
+    #if i >= 4:
+        #key = False
  
 print("fuera del while") 
 ser.close()
