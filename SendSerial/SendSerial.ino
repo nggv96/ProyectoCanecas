@@ -1,13 +1,20 @@
-
+#include<Servo.h>
+Servo ser1, ser2, ser3;
 
 int echoArray[5] = {6,4,15,19,17};
 int trigArray[5] = {7,5,14,18,16};
-int ledArray[3] = {51,47,43};
+int servoArray[3] = {10,9,8};
+float serialRandom;
+
+int gateCloseValue = 0;
+int gateOpenValue = 100;
 
 int maxDistance = 400;
 
 float duration;
 float distance;
+
+int led = 13;
 
 void setup() {
   Serial.begin (9600);
@@ -17,37 +24,72 @@ void setup() {
   for(int i = 0; i< sizeof(trigArray)/2; i++){
     pinMode( trigArray[i], OUTPUT);
     }
-  for(int i = 0; i< sizeof(ledArray)/2; i++){
-    pinMode( ledArray[i], OUTPUT);
-    }
+  ser1.attach(servoArray[0]);
+  ser2.attach(servoArray[1]);
+  ser3.attach(servoArray[2]);
+
+  pinMode(led, OUTPUT);
 }
 
 void loop() { 
- // receiveData();
-  sendData();
+  mainControl();
  }
 
-void sendData(){
-  if (Serial.available()){
-    if(Serial.read() == 's'){
-      ultrasonicData();
-      }
-    }
+void mainBegin(){
+    
   
   }
 
-void receiveData(){
+void mainControl(){
+  
   if (Serial.available()){
-    if(Serial.read() == 'n'){
-      for(int i = 0; i< sizeof(ledArray)/2; i++){
-        digitalWrite(ledArray[i],HIGH);
-        }
-      delay(15000);
-      for(int i = 0; i< sizeof(ledArray)/2; i++){
-        digitalWrite(ledArray[i],LOW);
-        }
+    char ser = Serial.read();
+    if(ser == 's'){
+      ultrasonicData();
+      //sendDataRandom();
+      }
+    if(ser == 'o'){
+      //Serial.println("Open Open");
+      gateOpen();
+      lights(ser);
+      }
+    if(ser == 'c'){
+      gateClose();
+      //Serial.println("Close Close");
+      lights(ser);
       }
     }
+  }
+
+void gateOpen(){
+  ser1.write(gateOpenValue);
+  ser2.write(gateOpenValue);
+  ser3.write(gateOpenValue);
+  }
+
+void gateClose(){
+  ser1.write(gateCloseValue);
+  ser2.write(gateCloseValue);
+  ser3.write(gateCloseValue);
+  }
+  
+void sendDataRandom(){
+  delay(1000);
+  serialRandom = random(10)/2.3; 
+  Serial.println("/////");
+  Serial.print(serialRandom);
+  Serial.print(",");
+  serialRandom = random(10)/2.55;
+  Serial.print(serialRandom);
+  Serial.print(",");
+  serialRandom = random(10)/2.55;
+  Serial.print(serialRandom);
+  Serial.print(",");
+  serialRandom = random(10)/2.55;
+  Serial.print(serialRandom);
+  Serial.print(",");
+  serialRandom = random(10)/2.55;
+  Serial.println(serialRandom);
   }
 
 void ultrasonicData(){
@@ -70,11 +112,29 @@ void ultrasonicData(){
           }
       }
       delay(200);   
-  }
-    Serial.println("/////");
-    for(int i=0; i< sizeof(dataSensor)/4;i++){
-      Serial.print(dataSensor[i]/5);
-      Serial.print(",");
-      }
-    Serial.println(" ");
     }
+  Serial.println("/////");
+  for(int i=0; i< sizeof(dataSensor)/4;i++){
+    Serial.print(dataSensor[i]/5);
+    Serial.print(",");
+    }
+  Serial.println(" ");
+   }
+
+void lights(char scene){
+
+    if(scene == 'o'){
+      digitalWrite(led, HIGH);
+      delay(15000);
+      digitalWrite(led, LOW);
+    }
+    else if(scene == 'c'){
+  
+      for(int i = 0; i<5; i++){
+          digitalWrite(led, HIGH);
+          delay(1000);
+          digitalWrite(led, LOW);;
+          delay(1000);
+          }
+    }
+  }

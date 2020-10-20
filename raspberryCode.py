@@ -4,9 +4,10 @@ import os
 from datetime import datetime
 from playsound import playsound
 
-ser = serial.Serial('/dev/ttyUSB0', 9600, timeout=300)
+ser = serial.Serial('/dev/ttyUSB1', 9600, timeout=300)
 print(ser.name)        
 key = True
+minValue = 0.4
 i = 0
 
 #para configurar despues ser.baudrate = 9600
@@ -72,6 +73,18 @@ def writeSerial(task):
         ser.write(b'o')
     if task == 'close':
         ser.write(b'c')
+        
+def mainControl(sensorInfo):
+    print('adentro', sensorInfo)
+    print('valores: ',sensorInfo[1],minValue)
+    print('comparacion',sensorInfo[1] > minValue)
+    if sensorInfo[1] > minValue:
+        audioSelector(sensorInfo[0])
+        writeSerial('open')
+        audioSelector(5)
+        
+def begin():
+    writeSerial(b,'b')    
 
 while key:
     writeSerial('data')
@@ -79,13 +92,7 @@ while key:
     print("Los sensores: ", dataSensors)
     sensorInfo = findSmallestMeasure(dataSensors)
     print("Caneca: ",sensorInfo)
-    #if float(sensorInfo[1]) < 0.1:
-        #audioSelector(sensorInfo[0])
-        #writeSerial()
-        #audioSelector(5)
-    #i = i+1
-    #if i >= 4:
-        #key = False
+    mainControl(sensorInfo)
  
 print("fuera del while") 
 ser.close()
