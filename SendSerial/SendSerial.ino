@@ -45,8 +45,8 @@ void mainControl(){
   if (Serial.available()){
     char ser = Serial.read();
     if(ser == 's'){
-      ultrasonicData();
-      //sendDataRandom();
+      //ultrasonicData();
+      sendDataRandom();
       }
     if(ser == 'o'){
       //Serial.println("Open Open");
@@ -125,16 +125,16 @@ void lights(char scene){
 
     if(scene == 'o'){
       digitalWrite(led, HIGH);
-      delay(15000);
+      delay(2000);
       digitalWrite(led, LOW);
     }
     else if(scene == 'c'){
   
       for(int i = 0; i<5; i++){
           digitalWrite(led, HIGH);
-          delay(1000);
+          delay(100);
           digitalWrite(led, LOW);;
-          delay(1000);
+          delay(100);
           }
     }
   }

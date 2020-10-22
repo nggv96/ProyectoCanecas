@@ -4,11 +4,10 @@ import os
 from datetime import datetime
 from playsound import playsound
 
-ser = serial.Serial('/dev/ttyUSB1', 9600, timeout=300)
-print(ser.name)        
+ser = serial.Serial('/dev/ttyUSB0', 9600, timeout=100) 
+print(ser.name)   
 key = True
-minValue = 0.4
-i = 0
+minValue = '0.3'
 
 #para configurar despues ser.baudrate = 9600
 #para configurar despues ser.port = 'COM1
@@ -62,12 +61,13 @@ def readingSerial():
 		reading = ser.readline()
 		if reading.find("///") == -1:
 			dataSensors = [reading[0:4],reading[5:9],reading[10:14],reading[15:19],reading[20:24]]
-			saveLog(dataSensors)
+			#saveLog(dataSensors)
 			return dataSensors
 
 def writeSerial(task):
     
     if task == 'data':
+        print('pedir data')
         ser.write(b's')
     if task == 'open':
         ser.write(b'o')
@@ -75,13 +75,11 @@ def writeSerial(task):
         ser.write(b'c')
         
 def mainControl(sensorInfo):
-    print('adentro', sensorInfo)
-    print('valores: ',sensorInfo[1],minValue)
-    print('comparacion',sensorInfo[1] > minValue)
-    if sensorInfo[1] > minValue:
+    if sensorInfo[1] <= minValue:
         audioSelector(sensorInfo[0])
         writeSerial('open')
         audioSelector(5)
+        writeSerial('close')
         
 def begin():
     writeSerial(b,'b')    
