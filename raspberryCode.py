@@ -70,8 +70,10 @@ def writeSerial(task):
         print('pedir data')
         ser.write(b's')
     if task == 'open':
+        print('open')
         ser.write(b'o')
     if task == 'close':
+        print('close')
         ser.write(b'c')
         
 def mainControl(sensorInfo):

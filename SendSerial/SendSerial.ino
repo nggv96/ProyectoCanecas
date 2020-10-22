@@ -45,17 +45,15 @@ void mainControl(){
   if (Serial.available()){
     char ser = Serial.read();
     if(ser == 's'){
-      //ultrasonicData();
-      sendDataRandom();
+      ultrasonicData();
+      //sendDataRandom();
       }
     if(ser == 'o'){
-      //Serial.println("Open Open");
       gateOpen();
       lights(ser);
       }
     if(ser == 'c'){
       gateClose();
-      //Serial.println("Close Close");
       lights(ser);
       }
     }
