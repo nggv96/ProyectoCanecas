@@ -4,10 +4,10 @@ import os
 from datetime import datetime
 from playsound import playsound
 
-ser = serial.Serial('/dev/ttyUSB0', 9600, timeout=300)
-print(ser.name)        
+ser = serial.Serial('/dev/ttyUSB0', 9600, timeout=100) 
+print(ser.name)   
 key = True
-i = 0
+minValue = '0.3'
 
 #para configurar despues ser.baudrate = 9600
 #para configurar despues ser.port = 'COM1
@@ -61,17 +61,30 @@ def readingSerial():
 		reading = ser.readline()
 		if reading.find("///") == -1:
 			dataSensors = [reading[0:4],reading[5:9],reading[10:14],reading[15:19],reading[20:24]]
-			saveLog(dataSensors)
+			#saveLog(dataSensors)
 			return dataSensors
 
 def writeSerial(task):
     
     if task == 'data':
+        print('pedir data')
         ser.write(b's')
     if task == 'open':
+        print('open')
         ser.write(b'o')
     if task == 'close':
+        print('close')
         ser.write(b'c')
+        
+def mainControl(sensorInfo):
+    if sensorInfo[1] <= minValue:
+        audioSelector(sensorInfo[0])
+        writeSerial('open')
+        audioSelector(5)
+        writeSerial('close')
+        
+def begin():
+    writeSerial(b,'b')    
 
 while key:
     writeSerial('data')
@@ -79,13 +92,7 @@ while key:
     print("Los sensores: ", dataSensors)
     sensorInfo = findSmallestMeasure(dataSensors)
     print("Caneca: ",sensorInfo)
-    #if float(sensorInfo[1]) < 0.1:
-        #audioSelector(sensorInfo[0])
-        #writeSerial()
-        #audioSelector(5)
-    #i = i+1
-    #if i >= 4:
-        #key = False
+    mainControl(sensorInfo)
  
 print("fuera del while") 
 ser.close()
