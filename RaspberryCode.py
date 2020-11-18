@@ -100,6 +100,7 @@ def mainControl(sensorInfo):
 def begin():
     writeSerial(b,'b')    
 
+os.system("python VideoController.py")
 while key:
     writeSerial('data')
     dataSensors = readingSerial()
