@@ -65,7 +65,7 @@ def findSmallestMeasure(dataSensors):
 
 def saveLog(dataSensors):
     date = datetime.now()
-    logTxt = open("log.txt","a+")
+    logTxt = open("../log.txt","a+")
     data = [str(date),"|",dataSensors[0],"|",dataSensors[1],"|",dataSensors[2],"|",dataSensors[3],"|",dataSensors[4],"|","\n"]
     logTxt.writelines(data)
     logTxt.close()
