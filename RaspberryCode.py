@@ -21,7 +21,7 @@ def audioRandom(audioPatch):
     return audioPatch+audio
 
 def audioSelector(sensor):
-    pathPrincipal = "/home/nicolas/Desktop/Repo/ProyectoCanecas/Audios/"
+    pathPrincipal = "/home/pi/Desktop/Repo/ProyectoCanecas/Audios/"
     
     Organico = "Organico/"
     NoApro = "Noaprovechable/"
