@@ -7,7 +7,7 @@ from datetime import datetime
 ser = serial.Serial('/dev/ttyUSB0', 9600, timeout=100) 
 print(ser.name)   
 key = True
-minValue = '0.7'
+minValue = '0.9'
 
 #para configurar despues ser.baudrate = 9600
 #para configurar despues ser.port = 'COM1

@@ -104,12 +104,12 @@ void ultrasonicData(){
       duration = pulseIn(echoArray[i], HIGH);
       distance = duration*0.034/2;
       if(distance > maxDistance){
-        dataSensor[i] = dataSensor[i]+4;
+        dataSensor[i] = dataSensor[i]+2;
         }else{
           dataSensor[i] = dataSensor[i]+ (distance/100);
           }
       }
-      delay(200);   
+      delay(100);   
     }
   Serial.println("/////");
   for(int i=0; i< sizeof(dataSensor)/4;i++){
