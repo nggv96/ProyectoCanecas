@@ -35,11 +35,6 @@ void loop() {
   mainControl();
  }
 
-void mainBegin(){
-    
-  
-  }
-
 void mainControl(){
   
   if (Serial.available()){
@@ -50,11 +45,11 @@ void mainControl(){
       }
     if(ser == 'o'){
       gateOpen();
-      lights(ser);
+      //lights(ser);
       }
     if(ser == 'c'){
       gateClose();
-      lights(ser);
+      //lights(ser);
       }
     }
   }
@@ -104,7 +99,7 @@ void ultrasonicData(){
       duration = pulseIn(echoArray[i], HIGH);
       distance = duration*0.034/2;
       if(distance > maxDistance){
-        dataSensor[i] = dataSensor[i]+2;
+        dataSensor[i] = dataSensor[i]+1;
         }else{
           dataSensor[i] = dataSensor[i]+ (distance/100);
           }
