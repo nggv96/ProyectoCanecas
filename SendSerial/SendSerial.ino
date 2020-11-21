@@ -109,7 +109,7 @@ void ultrasonicData(){
           dataSensor[i] = dataSensor[i]+ (distance/100);
           }
       }
-      delay(100);   
+      delay(50);   
     }
   Serial.println("/////");
   for(int i=0; i< sizeof(dataSensor)/4;i++){
