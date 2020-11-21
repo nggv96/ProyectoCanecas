@@ -75,7 +75,7 @@ def readingSerial():
 		reading = ser.readline()
 		if reading.find("///") == -1:
 			dataSensors = [reading[0:4],reading[5:9],reading[10:14],reading[15:19],reading[20:24]]
-			#saveLog(dataSensors)
+			saveLog(dataSensors)
 			return dataSensors
 
 def writeSerial(task):
