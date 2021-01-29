@@ -2,12 +2,12 @@ import serial
 import random
 import os
 from datetime import datetime
-from playsound import playsound
+
 
 ser = serial.Serial('/dev/ttyUSB0', 9600, timeout=100) 
 print(ser.name)   
 key = True
-minValue = '0.3'
+minValue = '0.9'
 
 #para configurar despues ser.baudrate = 9600
 #para configurar despues ser.port = 'COM1
@@ -15,29 +15,43 @@ minValue = '0.3'
 #El orden de las canecas aqui planteado es  Aprovechables-  Organico  -No aprovechables
 #                                            sensores 0-1     sensor 2    Sensores 3-4
 
+def audioRandom(audioPatch):
+    audioList = os.listdir(audioPatch)
+    audio = audioList[random.randint(0,(len(audioList))-1)]
+    return audioPatch+audio
+
 def audioSelector(sensor):
-    Organico = "/home/nicolas/Desktop/Repo/ProyectoCanecas/Audios/Organico.ogg"
-    NoApro = "/home/nicolas/Desktop/Repo/ProyectoCanecas/Audios/NoApro.ogg"
-    Apro = "/home/nicolas/Desktop/Repo/ProyectoCanecas/Audios/Apro.ogg"
-    Reciclar = "/home/nicolas/Desktop/Repo/ProyectoCanecas/Audios/Reciclar.ogg"
+    pathPrincipal = "/home/pi/Desktop/Repo/ProyectoCanecas/Audios/"
+    
+    Organico = "Organico/"
+    NoApro = "Noaprovechable/"
+    Apro = "Aprovechable/"
+    Reciclar = "Reciclar/"
+    
     if sensor == 0:
         print("Aprovechables")
-        os.system("omxplayer /home/nicolas/Desktop/Repo/ProyectoCanecas/Audios/Apro.ogg")
+        newPatch = audioRandom(pathPrincipal+Apro)
+        os.system("omxplayer "+newPatch)
     elif sensor == 1:
         print("Aprovechables")
-        os.system("omxplayer /home/nicolas/Desktop/Repo/ProyectoCanecas/Audios/Apro.ogg")
+        newPatch = audioRandom(pathPrincipal+Apro)
+        os.system("omxplayer "+newPatch)
     elif sensor == 2:
         print("Organico")
-        os.system("omxplayer /home/nicolas/Desktop/Repo/ProyectoCanecas/Audios/Organico.ogg")
+        newPatch = audioRandom(pathPrincipal+Organico)
+        os.system("omxplayer "+newPatch)
     elif sensor == 3:
         print("No Aprovechables")
-        os.system("omxplayer /home/nicolas/Desktop/Repo/ProyectoCanecas/Audios/NoApro.ogg")
+        newPatch = audioRandom(pathPrincipal+NoApro)
+        os.system("omxplayer "+newPatch)
     elif sensor == 4:
         print("No Aprovechables")
-        os.system("omxplayer /home/nicolas/Desktop/Repo/ProyectoCanecas/Audios/NoApro.ogg")
+        newPatch = audioRandom(pathPrincipal+NoApro)
+        os.system("omxplayer "+newPatch)
     elif sensor == 5:
-		print("Reciclar Reciclar")
-		os.system("omxplayer /home/nicolas/Desktop/Repo/ProyectoCanecas/Audios/Reciclar.ogg")
+        print("Reciclar Reciclar")
+        newPatch = audioRandom(pathPrincipal+Reciclar)
+        os.system("omxplayer "+newPatch)
   
 def findSmallestMeasure(dataSensors):
     j = 0
@@ -51,7 +65,7 @@ def findSmallestMeasure(dataSensors):
 
 def saveLog(dataSensors):
     date = datetime.now()
-    logTxt = open("log.txt","a+")
+    logTxt = open("../log.txt","a+")
     data = [str(date),"|",dataSensors[0],"|",dataSensors[1],"|",dataSensors[2],"|",dataSensors[3],"|",dataSensors[4],"|","\n"]
     logTxt.writelines(data)
     logTxt.close()
@@ -61,7 +75,7 @@ def readingSerial():
 		reading = ser.readline()
 		if reading.find("///") == -1:
 			dataSensors = [reading[0:4],reading[5:9],reading[10:14],reading[15:19],reading[20:24]]
-			#saveLog(dataSensors)
+			saveLog(dataSensors)
 			return dataSensors
 
 def writeSerial(task):
