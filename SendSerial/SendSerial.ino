@@ -6,8 +6,8 @@ int trigArray[5] = {7,5,14,18,16};
 int servoArray[3] = {10,9,8};
 float serialRandom;
 
-int gateCloseValue = 0;
-int gateOpenValue = 100;
+int gateCloseValue = 15;
+int gateOpenValue = 75;
 
 int maxDistance = 400;
 
@@ -17,6 +17,7 @@ float distance;
 int led = 13;
 
 void setup() {
+  
   Serial.begin (9600);
   for(int i = 0; i< sizeof(echoArray)/2; i++){
     pinMode( echoArray[i], INPUT);
@@ -29,6 +30,13 @@ void setup() {
   ser3.attach(servoArray[2]);
 
   pinMode(led, OUTPUT);
+
+  ser1.write(gateCloseValue);
+  ser2.write(gateCloseValue);
+  ser3.write(gateOpenValue);
+
+  gateOpen();
+  gateClose();
 }
 
 void loop() { 
@@ -55,15 +63,25 @@ void mainControl(){
   }
 
 void gateOpen(){
-  ser1.write(gateOpenValue);
-  ser2.write(gateOpenValue);
-  ser3.write(gateOpenValue);
+   for (int i = gateCloseValue; i <= gateOpenValue; i = i+5)
+  { 
+    Serial.println(i);
+    ser1.write(i);
+    ser2.write(i);
+    ser3.write(gateOpenValue-i);
+    delay(150);
+  }
   }
 
 void gateClose(){
-  ser1.write(gateCloseValue);
-  ser2.write(gateCloseValue);
-  ser3.write(gateCloseValue);
+   for (int i = gateOpenValue; i >= gateCloseValue; i = i-5)
+  { 
+    Serial.println(i);
+    ser1.write(i);
+    ser2.write(i);
+    ser3.write(gateCloseValue+i);
+    delay(150);
+  }
   }
   
 void sendDataRandom(){
