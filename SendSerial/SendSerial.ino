@@ -7,7 +7,7 @@ int servoArray[3] = {10,9,8};
 float serialRandom;
 
 int gateCloseValue = 15;
-int gateOpenValue = 75;
+int gateOpenValue = 85;
 
 int maxDistance = 400;
 
@@ -30,10 +30,6 @@ void setup() {
   ser3.attach(servoArray[2]);
 
   pinMode(led, OUTPUT);
-
-  ser1.write(gateCloseValue);
-  ser2.write(gateCloseValue);
-  ser3.write(gateOpenValue);
 
   gateOpen();
   gateClose();
@@ -65,10 +61,9 @@ void mainControl(){
 void gateOpen(){
    for (int i = gateCloseValue; i <= gateOpenValue; i = i+5)
   { 
-    Serial.println(i);
     ser1.write(i);
     ser2.write(i);
-    ser3.write(gateOpenValue-i);
+    ser3.write((gateOpenValue+10)-i);
     delay(150);
   }
   }
@@ -76,10 +71,9 @@ void gateOpen(){
 void gateClose(){
    for (int i = gateOpenValue; i >= gateCloseValue; i = i-5)
   { 
-    Serial.println(i);
     ser1.write(i);
     ser2.write(i);
-    ser3.write(gateCloseValue+i);
+    ser3.write((gateOpenValue+10)-i);
     delay(150);
   }
   }
